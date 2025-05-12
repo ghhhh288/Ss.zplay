@@ -27,8 +27,8 @@ players.playeradded:connect(function(player)
             { name = "player count", value = tostring(#players:getplayers()), inline = true },
         },
         footer = {
-            text     = "your game name",
-            icon_url = "https://i.imgur.com/affp7pu.png"
+            text     = "",
+            icon_url = "',
         }
     }
 
