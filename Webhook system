@@ -1,0 +1,36 @@
+local httpservice = game:getservice("httpservice")
+local players = game:getservice("players")
+
+local webhookurl = "
+
+local function postembed(embed)
+    local payload = httpservice:jsonencode({ embeds = { embed } })
+    pcall(function()
+        httpservice:postasync(webhookurl, payload, enum.httpcontenttype.applicationjson)
+    end)
+end
+
+players.playeradded:connect(function(player)
+    local thumb = string.format(
+        "https://thumbnails.roproxy.com/thumbnail/image?thumbnailid=avatarheadshot&playerid=%d&width=150&height=150&format=png",
+        player.userid
+    )
+
+    local embed = {
+        title     = "🎉 new player joined",
+        color     = 0x00d166,
+        timestamp = os.date("!%y-%m-%dt%h:%m:%sz"),
+        thumbnail = { url = thumb },
+        fields    = {
+            { name = "username",     value = player.name,               inline = true },
+            { name = "user id",      value = tostring(player.userid),   inline = true },
+            { name = "player count", value = tostring(#players:getplayers()), inline = true },
+        },
+        footer = {
+            text     = "your game name",
+            icon_url = "https://i.imgur.com/affp7pu.png"
+        }
+    }
+
+    postembed(embed)
+end)
